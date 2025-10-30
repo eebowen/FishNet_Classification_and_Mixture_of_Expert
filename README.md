@@ -40,6 +40,7 @@ The system uses a two-stage approach:
 ---
 
 ## Results
+![Results](images/results.png)
 
 ### Fish Family Classification (Single-Task)
 
@@ -80,10 +81,6 @@ Comparison of architectures for joint prediction of multiple fish attributes:
 - MoE's task-specific gating allows specialization while maintaining shared representations
 
 ---
-### Results Visualization
-
-![Results](images/results.png)
-
 
 ### Summary
 
