@@ -97,7 +97,7 @@ The system uses a two-stage approach:
 
 **Tasks:**
 - Family head (463 classes)
-- Order head (multiclass)
+- Order head (83 classes)
 - Habitat head (8 binary outputs)
 - Trophic level head (regression)
 
