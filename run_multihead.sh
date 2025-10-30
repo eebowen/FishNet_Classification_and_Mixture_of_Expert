@@ -1,0 +1,12 @@
+CUDA_VISIBLE_DEVICES=1 python -m dinov3.projects.multi_head.train_multihead \
+  --features-dir artifacts/fishnet2_balanced/features \
+  --ann-root datasets/anns \
+  --output-dir artifacts/multihead_runs \
+  --epochs 100 --batch-size 256 --lr 1e-3 \
+  --lr-scheduler linear --lr-warmup-epochs 5 \
+  --tower-hidden 1024 --dropout 0.1 \
+  --loss-weights 1.0 0.5 0.5 0.5 \
+  --class-weighting balanced \
+  --standardize \
+  --wandb --wandb-project fishnet_moe --patience 50 \
+  --num-layers 4
