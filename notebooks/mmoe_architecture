@@ -1,0 +1,91 @@
+// MMoE Architecture
+digraph {
+	fontname=Arial fontsize=12 newrank=true rankdir=TB splines=ortho
+	node [fontname=Arial fontsize=11 margin="0.2,0.1" style=filled]
+	edge [fontname=Arial fontsize=9 penwidth=2]
+	subgraph cluster_input {
+		color="#E8EAF6" fontcolor="#1A237E" fontsize=13 label="Input & Frozen Backbone" labeljust=l penwidth=2 style="filled,rounded"
+		input [label="Input Image" color="#3F51B5" fillcolor="#C5CAE9" fontcolor="#1A237E" shape=box style="filled,rounded"]
+		backbone [label="Frozen DINOv3 (ViT-L)" color="#3F51B5" fillcolor="#9FA8DA" fontcolor="#1A237E" penwidth=2 shape=box style="filled,rounded"]
+		features [label="Features (x) [B, D]" color="#3F51B5" fillcolor="#7986CB" fontcolor=white penwidth=2 shape=box style="filled,rounded,dashed"]
+		input -> backbone [color="#5C6BC0" penwidth=2]
+		backbone -> features [color="#5C6BC0" penwidth=2]
+	}
+	subgraph cluster_experts {
+		color="#FFF59D" fontcolor="#F57F17" fontsize=11 label=Experts rank=same style="filled,rounded"
+		e1 [label="Expert 1
+(MLP)" color="#FFA726" fillcolor="#FFE082" fontcolor="#E65100" penwidth=2 shape=box style="filled,rounded"]
+		e_dots [label="..." fillcolor=transparent fontsize=16 shape=plaintext]
+		eN [label="Expert E
+(MLP)" color="#FFA726" fillcolor="#FFE082" fontcolor="#E65100" penwidth=2 shape=box style="filled,rounded"]
+	}
+	subgraph cluster_gates {
+		color="#FFECB3" fontcolor="#F57F17" fontsize=11 label="Gates (1 per task)" rank=same style="filled,rounded"
+		g_family [label="Gate_Family
+(Softmax)" color="#FF8F00" fillcolor="#FFCA28" fontcolor="#E65100" penwidth=2 shape=diamond style=filled]
+		g_order [label="Gate_Order
+(Softmax)" color="#FF8F00" fillcolor="#FFCA28" fontcolor="#E65100" penwidth=2 shape=diamond style=filled]
+		g_habitat [label="Gate_Habitat
+(Softmax)" color="#FF8F00" fillcolor="#FFCA28" fontcolor="#E65100" penwidth=2 shape=diamond style=filled]
+		g_troph [label="Gate_Troph
+(Softmax)" color="#FF8F00" fillcolor="#FFCA28" fontcolor="#E65100" penwidth=2 shape=diamond style=filled]
+	}
+	h1 [label="" shape=point width=0]
+	hN [label="" shape=point width=0]
+	features -> e1 [color="#7986CB" lhead=cluster_experts penwidth=2]
+	features -> eN [color="#7986CB" lhead=cluster_experts penwidth=2]
+	features -> g_family [color="#7986CB" lhead=cluster_gates penwidth=2]
+	features -> g_troph [color="#7986CB" lhead=cluster_gates penwidth=2]
+	e1 -> h1 [color="#FFA726" penwidth=2]
+	eN -> hN [color="#FFA726" penwidth=2]
+	subgraph cluster_mmoe {
+		color="#FFF9C4" fontcolor="#F57F17" fontsize=13 label="Trainable MMoE Layer" labeljust=l penwidth=2 style="filled,rounded"
+	}
+	mix_family [label="Weighted
+Sum" color="#D32F2F" fillcolor="#FF8A80" fixedsize=true fontcolor=white penwidth=2 shape=circle style=filled width=1.2]
+	mix_order [label="Weighted
+Sum" color="#1976D2" fillcolor="#82B1FF" fixedsize=true fontcolor=white penwidth=2 shape=circle style=filled width=1.2]
+	mix_habitat [label="Weighted
+Sum" color="#388E3C" fillcolor="#B9F6CA" fixedsize=true fontcolor="#1B5E20" penwidth=2 shape=circle style=filled width=1.2]
+	mix_troph [label="Weighted
+Sum" color="#7B1FA2" fillcolor="#EA80FC" fixedsize=true fontcolor=white penwidth=2 shape=circle style=filled width=1.2]
+	t_family [label="Tower_Family
+(MLP)" color="#D32F2F" fillcolor="#FFCDD2" fontcolor="#B71C1C" penwidth=2 shape=box style="filled,rounded"]
+	t_order [label="Tower_Order
+(MLP)" color="#1976D2" fillcolor="#BBDEFB" fontcolor="#0D47A1" penwidth=2 shape=box style="filled,rounded"]
+	t_habitat [label="Tower_Habitat
+(MLP)" color="#388E3C" fillcolor="#C8E6C9" fontcolor="#1B5E20" penwidth=2 shape=box style="filled,rounded"]
+	t_troph [label="Tower_Troph
+(MLP)" color="#7B1FA2" fillcolor="#E1BEE7" fontcolor="#4A148C" penwidth=2 shape=box style="filled,rounded"]
+	out_family [label="Family
+Logits" color="#C62828" fillcolor="#EF5350" fontcolor=white penwidth=3 shape=box style="filled,rounded,bold"]
+	out_order [label="Order
+Logits" color="#1565C0" fillcolor="#42A5F5" fontcolor=white penwidth=3 shape=box style="filled,rounded,bold"]
+	out_habitat [label="Habitat
+Logits" color="#2E7D32" fillcolor="#66BB6A" fontcolor=white penwidth=3 shape=box style="filled,rounded,bold"]
+	out_troph [label="Troph
+Prediction" color="#6A1B9A" fillcolor="#AB47BC" fontcolor=white penwidth=3 shape=box style="filled,rounded,bold"]
+	h1 -> mix_family [label=w_fam_1 arrowhead=none color="#FFA726" fontcolor="#E65100" style=dotted]
+	hN -> mix_family [label=w_fam_E arrowhead=none color="#FFA726" fontcolor="#E65100" style=dotted]
+	g_family -> mix_family [color="#FF6F00" penwidth=2 style=dashed]
+	mix_family -> t_family [color="#D32F2F" penwidth=3]
+	t_family -> out_family [color="#C62828" penwidth=3]
+	h1 -> mix_order [arrowhead=none color="#FFA726" style=dotted]
+	hN -> mix_order [arrowhead=none color="#FFA726" style=dotted]
+	g_order -> mix_order [color="#FF6F00" penwidth=2 style=dashed]
+	mix_order -> t_order [color="#1976D2" penwidth=3]
+	t_order -> out_order [color="#1565C0" penwidth=3]
+	h1 -> mix_habitat [arrowhead=none color="#FFA726" style=dotted]
+	hN -> mix_habitat [arrowhead=none color="#FFA726" style=dotted]
+	g_habitat -> mix_habitat [color="#FF6F00" penwidth=2 style=dashed]
+	mix_habitat -> t_habitat [color="#388E3C" penwidth=3]
+	t_habitat -> out_habitat [color="#2E7D32" penwidth=3]
+	h1 -> mix_troph [arrowhead=none color="#FFA726" style=dotted]
+	hN -> mix_troph [arrowhead=none color="#FFA726" style=dotted]
+	g_troph -> mix_troph [color="#FF6F00" penwidth=2 style=dashed]
+	mix_troph -> t_troph [color="#7B1FA2" penwidth=3]
+	t_troph -> out_troph [color="#6A1B9A" penwidth=3]
+	subgraph cluster_output {
+		color="#E1F5FE" fontcolor="#01579B" fontsize=13 label="Trainable Task Towers & Outputs" labeljust=l penwidth=2 style="filled,rounded"
+	}
+}

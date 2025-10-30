@@ -1,18 +1,404 @@
-build/
-dist/
-*.egg-info/
+# ============================================================================
+# Python
+# ============================================================================
+other_files/
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
 **/__pycache__/
 
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+.pybuilder/
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
 **/.ipynb_checkpoints
 **/.ipynb_checkpoints/**
 
-**/notebooks
+# IPython
+profile_default/
+ipython_config.py
 
-# Ignore shell scripts
-*.sh
+# pyenv
+.python-version
 
-# Ignore swap files
-*.swp
+# pipenv
+Pipfile.lock
 
-# Ignore vscode directory
+# poetry
+poetry.lock
+
+# pdm
+.pdm.toml
+
+# PEP 582
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# ============================================================================
+# PyTorch / Deep Learning
+# ============================================================================
+
+# Model checkpoints and weights
+*.pth
+*.pt
+*.ckpt
+*.h5
+*.pb
+*.onnx
+*.tflite
+
+# Except specific pretrained weights directory
+!weights/.gitkeep
+
+# Training logs
+logs/
+runs/
+*.log
+tensorboard/
+lightning_logs/
+
+# Datasets (excluding small metadata files)
+datasets/fishnet/
+datasets/*/images/
+datasets/*/train/
+datasets/*/test/
+datasets/*/val/
+*.tar
+*.tar.gz
+*.zip
+
+# Keep annotation files
+!datasets/anns/
+
+# ============================================================================
+# Experiment Artifacts
+# ============================================================================
+
+# Experiment outputs
+artifacts/experiments/
+artifacts/features/
+artifacts/fishnet/
+artifacts/fishnet2_balanced/
+artifacts/fishnet2_csv_split/
+artifacts/fishnet2_balanced_scheduler/
+artifacts/mmoe_runs/
+artifacts/mmoe_visualizations/
+artifacts/mmoe_visualizations_1/
+artifacts/multihead_runs/
+
+# Keep directory structure indicators
+!artifacts/.gitkeep
+!artifacts/*/.gitkeep
+
+# Checkpoints
+checkpoints/
+*.checkpoint
+
+# ============================================================================
+# Weights & Biases
+# ============================================================================
+weights/
+wandb/
+*.wandb
+
+# ============================================================================
+# IDE / Editor
+# ============================================================================
+
+# VSCode
 .vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+.netrwhist
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# ============================================================================
+# OS Specific
+# ============================================================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Linux
+*~
+.directory
+.Trash-*
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# ============================================================================
+# Project Specific
+# ============================================================================
+
+# Shell scripts (kept for reference but ignored for security)
+*.sh
+!setup.sh
+!install.sh
+
+# Metadata analysis
+metadata_analysis_summary.txt
+
+# Compiled notebooks
+notebooks/*.html
+notebooks/*.pdf
+
+# Data processing outputs
+data_process/*.csv
+data_process/*.pkl
+data_process/*.h5
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Compressed files
+*.gz
+*.bz2
+*.xz
+*.7z
+*.rar
+
+# Large image files (except samples)
+*.tiff
+*.tif
+# Keep small sample images if any
+!samples/*.jpg
+!samples/*.png
+
+# FishNet specific
+FishNet/Images/
+FishNet/*.txt
+!FishNet/README.md
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# ============================================================================
+# Git LFS (Large File Storage)
+# ============================================================================
+
+# Track these with git-lfs if you use it
+# *.pth filter=lfs diff=lfs merge=lfs -text
+# *.pt filter=lfs diff=lfs merge=lfs -text
+# *.h5 filter=lfs diff=lfs merge=lfs -text
+
+# ============================================================================
+# Miscellaneous
+# ============================================================================
+
+# Ignore compiled CUDA extensions
+*.o
+*.cu.o
+
+# Ignore generated files
+*.pyc
+*.pyo
+
+# Ignore coverage reports
+htmlcov/
+.coverage
+
+# Ignore profiling data
+*.prof
+*.lprof
+
+# Node modules (if any JS tooling)
+node_modules/
+
+# Lock files for reproducibility (optional, can keep)
+# Pipfile.lock
+# poetry.lock
+
+# Cache directories
+.cache/
+*.cache
+
+# Ignore DVC files if using data version control
+.dvc/
+*.dvc
+
+# Slurm job outputs
+slurm-*.out
+slurm-*.err
+*.slurm
+
+# Hydra outputs
+outputs/
+multirun/
+
+# MLflow
+mlruns/
+
+# ============================================================================
+# Keep These Files
+# ============================================================================
+
+# Keep empty directories with .gitkeep
+!.gitkeep
+
+# Keep important config files
+!*.yaml
+!*.yml
+!*.json
+!*.toml
+!requirements*.txt
+!setup.py
+!pyproject.toml
+!conda.yaml
+
+# Keep documentation
+!*.md
+!LICENSE*
+!CONTRIBUTING*
+!CODE_OF_CONDUCT*
+
+# Keep small sample data if needed
+!datasets/anns/*.csv
+!datasets/anns/*.json

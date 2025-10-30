@@ -1,0 +1,44 @@
+%%{init: {'theme':'base', 'themeVariables': { 'fontSize':'18px', 'fontFamily':'Arial, Helvetica, sans-serif'}}}%%
+flowchart TB
+    Input["<b>Input Image</b>"]
+    Backbone["<b>Frozen DINOv3</b>"]
+    Features["<b>Shared Features</b>"]
+    
+    Input --> Backbone --> Features
+    
+    subgraph Experts["<b>Shared Expert Network</b>"]
+        direction LR
+        E1["<b>Expert 1</b>"]
+        E2["<b>Expert 2</b>"]
+        E3["<b>Expert 3</b>"]
+        E4["<b>Expert 4</b>"]
+    end
+    
+    Features --> Experts
+    
+    subgraph TaskFamily["🔴 <b>Family Task</b>"]
+        direction TB
+        GF{"<b>Gate F</b>"}
+        MF(("<b>Mix F</b>"))
+        TF["<b>Tower F</b>"]
+        OF["<b>Family Out</b>"]
+        GF --> MF
+        MF --> TF --> OF
+    end
+    
+    Experts -.-> MF
+    Features --> GF
+    
+    style Input fill:#E8EAF6,stroke:#5C6BC0,stroke-width:2px,color:#1A237E
+    style Backbone fill:#C5CAE9,stroke:#5C6BC0,stroke-width:2px,color:#1A237E
+    style Features fill:#9FA8DA,stroke:#5C6BC0,stroke-width:3px,color:#fff
+    style Experts fill:#FFF8E1,stroke:#F9A825,stroke-width:3px,color:#F57F17
+    style E1 fill:#FFE082,stroke:#FFA726,stroke-width:2px,color:#E65100
+    style E2 fill:#FFE082,stroke:#FFA726,stroke-width:2px,color:#E65100
+    style E3 fill:#FFE082,stroke:#FFA726,stroke-width:2px,color:#E65100
+    style E4 fill:#FFE082,stroke:#FFA726,stroke-width:2px,color:#E65100
+    style TaskFamily fill:#FCE4EC,stroke:#C2185B,stroke-width:2px
+    style GF fill:#F06292,stroke:#AD1457,stroke-width:2px,color:#fff
+    style MF fill:#EC407A,stroke:#880E4F,stroke-width:2px,color:#fff
+    style TF fill:#F8BBD0,stroke:#C2185B,stroke-width:2px,color:#880E4F
+    style OF fill:#D81B60,stroke:#880E4F,stroke-width:3px,color:#fff

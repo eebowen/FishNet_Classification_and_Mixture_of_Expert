@@ -1,0 +1,71 @@
+name: fishnet-cpu
+channels:
+  - pytorch
+  - conda-forge
+  - defaults
+
+dependencies:
+  # Python
+  - python=3.11
+  
+  # Core ML/DL (CPU-only)
+  - pytorch::pytorch>=2.1.0
+  - pytorch::torchvision>=0.16.0
+  - pytorch::cpuonly
+  
+  # Scientific Computing
+  - numpy>=1.24.0
+  - scipy
+  - pandas>=2.0.0
+  
+  # Computer Vision
+  - pillow>=10.0.0
+  - opencv
+  
+  # ML Tools
+  - scikit-learn>=1.3.0
+  
+  # Configuration & Utilities
+  - omegaconf>=2.3.0
+  - pyyaml
+  - tqdm
+  - termcolor
+  
+  # Jupyter & Visualization
+  - jupyter
+  - notebook
+  - matplotlib>=3.7.0
+  - seaborn
+  
+  # Development Tools
+  - pip>=23.0
+  
+  # Install via pip
+  - pip:
+    # DINOv3 specific
+    - ftfy>=6.1.0
+    - regex>=2023.0.0
+    - iopath>=0.1.10
+    
+    # Metrics & Evaluation
+    - torchmetrics>=1.0.0
+    
+    # Experiment Tracking (optional for CPU)
+    - wandb>=0.15.0
+    - tensorboard>=2.14.0
+    
+    # Data Processing
+    - albumentations>=1.3.0
+    
+    # Additional utilities
+    - einops>=0.7.0
+    - requests>=2.31.0
+    
+    # Install dinov3 package in development mode
+    - -e .
+
+# Note: This is a CPU-only environment
+# Training will be significantly slower, but useful for:
+# - Feature extraction on small datasets
+# - Model evaluation
+# - Development and testing

@@ -1,0 +1,85 @@
+name: fishnet
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+
+dependencies:
+  # Python
+  - python=3.11
+  
+  # Core ML/DL
+  - pytorch::pytorch>=2.1.0
+  - pytorch::torchvision>=0.16.0
+  - pytorch::torchaudio
+  - pytorch::pytorch-cuda=12.1  # For CUDA 12.1, adjust based on your GPU
+  
+  # Scientific Computing
+  - numpy>=1.24.0
+  - scipy
+  - pandas>=2.0.0
+  
+  # Computer Vision
+  - pillow>=10.0.0
+  - opencv
+  
+  # ML Tools
+  - scikit-learn>=1.3.0
+  - scikit-learn-intelex
+  
+  # Configuration & Utilities
+  - omegaconf>=2.3.0
+  - pyyaml
+  - tqdm
+  - termcolor
+  
+  # Jupyter & Visualization (optional but useful)
+  - jupyter
+  - notebook
+  - ipywidgets
+  - matplotlib>=3.7.0
+  - seaborn
+  
+  # Development Tools
+  - pip>=23.0
+  
+  # Install via pip
+  - pip:
+    # DINOv3 specific
+    - ftfy>=6.1.0              # Text processing for CLIP/DINO
+    - regex>=2023.0.0          # Pattern matching
+    - iopath>=0.1.10           # Path handling
+    
+    # Metrics & Evaluation
+    - torchmetrics>=1.0.0      # PyTorch metrics
+    
+    # Experiment Tracking
+    - wandb>=0.15.0            # Weights & Biases
+    - tensorboard>=2.14.0      # TensorBoard logging
+    
+    # Job Scheduling
+    - submitit>=1.4.5          # For SLURM cluster submission
+    
+    # Data Processing
+    - albumentations>=1.3.0    # Advanced image augmentation
+    - timm>=0.9.0              # PyTorch Image Models (optional)
+    
+    # Additional utilities
+    - einops>=0.7.0            # Tensor operations
+    - pycocotools             # For evaluation metrics
+    - requests>=2.31.0         # HTTP requests
+    
+    # Install dinov3 package in development mode
+    - -e .
+
+# Platform notes:
+# For CPU-only installation:
+#   Replace "pytorch::pytorch-cuda=12.1" with "pytorch::cpuonly"
+#
+# For different CUDA versions:
+#   pytorch-cuda=11.8  # For CUDA 11.8
+#   pytorch-cuda=12.1  # For CUDA 12.1
+#
+# For ROCm (AMD GPUs):
+#   Replace pytorch-cuda with pytorch-rocm packages
