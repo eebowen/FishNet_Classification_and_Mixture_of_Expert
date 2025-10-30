@@ -4,6 +4,7 @@ A comprehensive fish species classification system leveraging DINOv3 vision tran
 
 ## Table of Contents
 - [Overview](#overview)
+- [Results](#results)
 - [Dataset](#dataset)
 - [Models](#models)
   - [FishNet (Linear Classifier)](#fishnet-linear-classifier)
@@ -11,7 +12,6 @@ A comprehensive fish species classification system leveraging DINOv3 vision tran
   - [Multi-Task MoE](#multi-task-moe)
 - [Installation](#installation)
 - [Quick Start](#quick-start)
-- [Results](#results)
 - [Training](#training)
   - [Shell Scripts Reference](#shell-scripts-reference)
 - [Monitoring](#monitoring)
@@ -36,6 +36,79 @@ This project implements three different architectures for fish species classific
 The system uses a two-stage approach:
 1. **Feature Extraction**: Extract dense DINOv3 features once
 2. **Classifier Training**: Train lightweight classifiers on cached features
+
+---
+
+## Results
+
+### Fish Family Classification (Single-Task)
+
+Progressive improvements on FishNet classifier with DINOv3 features:
+
+| Model Configuration | Train Acc | Val Acc | Test Acc |
+|---------------------|-----------|---------|----------|
+| **Baseline: ConvNeXt + Class Balance** | N/A | N/A | **0.613** |
+| DINOv3 + train/val/test split | 0.995 | 0.788 | 0.787 |
+| + Class balance weight + Standardize | 0.976 | 0.789 | 0.791 |
+| + Warmup + LR Scheduler | 0.967 | 0.801 | 0.804 |
+| **+ LayerNorm + Dropout (Best)** | **0.995** | **0.802** | **0.807** |
+
+**Key Improvements:**
+- **+19.4%** test accuracy over ConvNeXt baseline (0.613 → 0.807)
+- **+1.6%** from DINOv3 baseline to best model (0.791 → 0.807)
+- Class balancing, feature standardization, and proper regularization are crucial
+- Warmup + LR scheduling stabilizes training and improves generalization
+
+---
+
+### Multi-Task Learning (Family + Order + Habitat + Trophic Level)
+
+Comparison of architectures for joint prediction of multiple fish attributes:
+
+| Model | Family (Acc) | Order (Acc) | 8 Habitat (F1) | Trophic Level (MAE) |
+|-------|--------------|-------------|----------------|---------------------|
+| **Paper Baseline** (different models per task) | 0.614 | 0.744 | 0.817 | N/A |
+| **Multi-Head** (4 FC heads) | **0.791** | 0.843 | 0.805 | 0.323 |
+| **Multi-Task MoE** (Ours) | **0.791** | **0.850** | **0.842** | **0.255** |
+
+**Key Findings:**
+- **MoE outperforms Multi-Head** on 3 out of 4 tasks
+  - Order: +0.7% accuracy (0.843 → 0.850)
+  - Habitat: +3.7% F1 score (0.805 → 0.842)
+  - Trophic: -21.1% MAE (0.323 → 0.255, lower is better)
+- **Shared expert pool** in MoE enables better knowledge transfer across tasks
+- Both DINOv3-based models significantly outperform paper baseline (+17.7% family accuracy)
+- MoE's task-specific gating allows specialization while maintaining shared representations
+
+---
+
+### Summary
+
+**Best Model per Task:**
+- **Family Classification (Single-Task)**: FishNet + LayerNorm + Dropout → **80.7% accuracy**
+- **Multi-Task Learning**: Multi-Task MoE → **Best on 3/4 tasks**
+  - Family: 79.1% | Order: 85.0% | Habitat: 84.2% F1 | Trophic: 0.255 MAE
+
+**Architecture Insights:**
+1. **DINOv3 features** are highly effective for fish classification (+19.4% over ConvNeXt)
+2. **Proper regularization** (dropout, LayerNorm) prevents overfitting on imbalanced data
+3. **Expert sharing** (MoE) > Independent heads for multi-task scenarios
+4. **Feature standardization** and **class balancing** are essential with imbalanced datasets
+
+### Visualization
+
+**Add your result images here:**
+
+<!-- Example:
+![Training Curves](path/to/training_curves.png)
+*Figure 1: Training and validation metrics across epochs*
+
+![Confusion Matrix](path/to/confusion_matrix.png)
+*Figure 2: Confusion matrix for family classification*
+
+![Task Performance](path/to/task_comparison.png)
+*Figure 3: Per-task performance comparison*
+-->
 
 ---
 
@@ -329,79 +402,6 @@ python -m dinov3.projects.multitask_moe.train_mmoe \
   --standardize \
   --wandb
 ```
-
----
-
-## Results
-
-### Fish Family Classification (Single-Task)
-
-Progressive improvements on FishNet classifier with DINOv3 features:
-
-| Model Configuration | Train Acc | Val Acc | Test Acc |
-|---------------------|-----------|---------|----------|
-| **Baseline: ConvNeXt + Class Balance** | N/A | N/A | **0.613** |
-| DINOv3 + train/val/test split | 0.995 | 0.788 | 0.787 |
-| + Class balance weight + Standardize | 0.976 | 0.789 | 0.791 |
-| + Warmup + LR Scheduler | 0.967 | 0.801 | 0.804 |
-| **+ LayerNorm + Dropout (Best)** | **0.995** | **0.802** | **0.807** |
-
-**Key Improvements:**
-- **+19.4%** test accuracy over ConvNeXt baseline (0.613 → 0.807)
-- **+1.6%** from DINOv3 baseline to best model (0.791 → 0.807)
-- Class balancing, feature standardization, and proper regularization are crucial
-- Warmup + LR scheduling stabilizes training and improves generalization
-
----
-
-### Multi-Task Learning (Family + Order + Habitat + Trophic Level)
-
-Comparison of architectures for joint prediction of multiple fish attributes:
-
-| Model | Family (Acc) | Order (Acc) | 8 Habitat (F1) | Trophic Level (MAE) |
-|-------|--------------|-------------|----------------|---------------------|
-| **Paper Baseline** (different models per task) | 0.614 | 0.744 | 0.817 | N/A |
-| **Multi-Head** (4 FC heads) | **0.791** | 0.843 | 0.805 | 0.323 |
-| **Multi-Task MoE** (Ours) | **0.791** | **0.850** | **0.842** | **0.255** |
-
-**Key Findings:**
-- **MoE outperforms Multi-Head** on 3 out of 4 tasks
-  - Order: +0.7% accuracy (0.843 → 0.850)
-  - Habitat: +3.7% F1 score (0.805 → 0.842)
-  - Trophic: -21.1% MAE (0.323 → 0.255, lower is better)
-- **Shared expert pool** in MoE enables better knowledge transfer across tasks
-- Both DINOv3-based models significantly outperform paper baseline (+17.7% family accuracy)
-- MoE's task-specific gating allows specialization while maintaining shared representations
-
----
-
-### Summary
-
-**Best Model per Task:**
-- **Family Classification (Single-Task)**: FishNet + LayerNorm + Dropout → **80.7% accuracy**
-- **Multi-Task Learning**: Multi-Task MoE → **Best on 3/4 tasks**
-  - Family: 79.1% | Order: 85.0% | Habitat: 84.2% F1 | Trophic: 0.255 MAE
-
-**Architecture Insights:**
-1. **DINOv3 features** are highly effective for fish classification (+19.4% over ConvNeXt)
-2. **Proper regularization** (dropout, LayerNorm) prevents overfitting on imbalanced data
-3. **Expert sharing** (MoE) > Independent heads for multi-task scenarios
-4. **Feature standardization** and **class balancing** are essential with imbalanced datasets
-
-### Visualization
-
-**Add your result images here:**
-
-<!-- Example:
-![Training Curves](path/to/training_curves.png)
-*Figure 1: Training and validation metrics across epochs*
-
-![Confusion Matrix](path/to/confusion_matrix.png)
-*Figure 2: Confusion matrix for family classification*
-
-![Task Performance](path/to/task_comparison.png)
-*Figure 3: Per-task performance comparison*
--->
 
 ---
 

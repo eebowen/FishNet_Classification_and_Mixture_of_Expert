@@ -274,7 +274,7 @@ $RECYCLE.BIN/
 # Project Specific
 # ============================================================================
 
-# Shell scripts (kept for reference but ignored for security)
+# Shell scripts (kept for reference but ignored for security)w
 !setup.sh
 !install.sh
 
