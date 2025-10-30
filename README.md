@@ -221,42 +221,19 @@ Comparison of architectures for joint prediction of multiple fish attributes:
 - 16GB+ RAM
 - ~50GB disk space for datasets and model weights
 
-### Quick Setup (Recommended)
 
-**Option 1: GPU Environment (CUDA 12.1)**
+**Option 1:**
 ```bash
 # Clone the repository
 git clone https://github.com/facebookresearch/dinov3.git
 cd dinov3
-
 # Create conda environment with all dependencies
 conda env create -f environment.yml
-
 # Activate environment
 conda activate fishnet
-
-# Verify installation
-python -c "import torch; print(f'PyTorch: {torch.__version__}, CUDA: {torch.cuda.is_available()}')"
 ```
 
-**Option 2: CPU-Only Environment**
-```bash
-# For machines without GPU or for inference/evaluation only
-conda env create -f environment-cpu.yml
-conda activate fishnet-cpu
-```
-
-**Option 3: Different CUDA Version**
-```bash
-# Edit environment.yml and change:
-# pytorch::pytorch-cuda=12.1  →  pytorch::pytorch-cuda=11.8
-
-# Then create environment
-conda env create -f environment.yml
-conda activate fishnet
-```
-
-### Manual Installation (Alternative)
+**Option 2:  Manual Installation**
 
 ```bash
 # Create environment manually
@@ -272,45 +249,6 @@ pip install -r requirements.txt
 # Install package in development mode
 pip install -e .
 ```
-
-### Verify Installation
-
-```bash
-# Test DINOv3 import
-python -c "import dinov3; print('DINOv3 imported successfully')"
-
-# Test FishNet modules
-python -c "from dinov3.projects.fishnet2 import train_linear; print('FishNet modules available')"
-
-# Check GPU availability
-python -c "import torch; print(f'CUDA available: {torch.cuda.is_available()}')"
-python -c "import torch; print(f'GPU count: {torch.cuda.device_count()}')"
-```
-
-### Optional: Weights & Biases Setup
-
-```bash
-# Install wandb (included in environment.yml)
-pip install wandb
-
-# Login to track experiments
-wandb login
-
-# Your API key will be saved for future runs
-```
-
-### Download Pretrained Weights
-
-Download DINOv3 pretrained weights (requires access approval):
-```bash
-# ViT-L/16 (recommended for best performance)
-wget <URL_TO_WEIGHTS> -O weights/dinov3_vitl16_pretrain_lvd1689m.pth
-
-# ViT-S/16 (for faster inference)
-wget <URL_TO_WEIGHTS> -O weights/dinov3_vits16_pretrain_lvd1689m.pth
-```
-
----
 
 ## Quick Start
 
