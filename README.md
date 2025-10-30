@@ -46,8 +46,9 @@ The system uses a two-stage approach:
   - Training: 75,631 images
   - Test: 18,901 images
 - **Sources**: 
-  - FishBase (web-scraped images): ~43,500 images
-  - iNaturalist (local dataset): ~51,000 images
+  - [FishNet Dataset](https://fishnet-2023.github.io/):
+    - FishBase (web-scraped images): ~43,500 images
+    - iNaturalist (local dataset): ~51,000 images
 - **Classes**: 463 fish families
 - **Distribution**: All families present in both train and test sets
 - **Challenge**: Highly imbalanced with some families having as few as 4 training images
