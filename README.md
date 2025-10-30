@@ -80,6 +80,10 @@ Comparison of architectures for joint prediction of multiple fish attributes:
 - MoE's task-specific gating allows specialization while maintaining shared representations
 
 ---
+### Results Visualization
+
+![Results](images/results.png)
+
 
 ### Summary
 
@@ -94,20 +98,6 @@ Comparison of architectures for joint prediction of multiple fish attributes:
 3. **Expert sharing** (MoE) > Independent heads for multi-task scenarios
 4. **Feature standardization** and **class balancing** are essential with imbalanced datasets
 
-### Visualization
-
-**Add your result images here:**
-
-<!-- Example:
-![Training Curves](path/to/training_curves.png)
-*Figure 1: Training and validation metrics across epochs*
-
-![Confusion Matrix](path/to/confusion_matrix.png)
-*Figure 2: Confusion matrix for family classification*
-
-![Task Performance](path/to/task_comparison.png)
-*Figure 3: Per-task performance comparison*
--->
 
 ---
 
