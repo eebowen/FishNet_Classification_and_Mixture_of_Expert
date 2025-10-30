@@ -55,7 +55,6 @@ Progressive improvements on FishNet classifier with DINOv3 features:
 
 **Key Improvements:**
 - **+19.4%** test accuracy over ConvNeXt baseline (0.613 → 0.807)
-- **+1.6%** from DINOv3 baseline to best model (0.791 → 0.807)
 - Class balancing, feature standardization, and proper regularization are crucial
 - Warmup + LR scheduling stabilizes training and improves generalization
 
