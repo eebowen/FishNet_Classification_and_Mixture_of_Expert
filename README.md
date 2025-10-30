@@ -1,4 +1,4 @@
-# FishNet: Multi-Task Fish Classification using Mixture-of-Experts with DINOv3
+# Multi-Task Fish Classification using Mixture-of-Experts with DINOv3
 
 A comprehensive fish species classification system leveraging DINOv3 vision transformers for multi-task learning on fish taxonomy and ecological attributes.
 
