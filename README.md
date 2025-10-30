@@ -329,18 +329,7 @@ python -m dinov3.projects.multitask_moe.train_mmoe \
 
 ---
 
-## Training
-
-### Experiment Management
-
-All experiments are automatically organized with:
-- Timestamped directories
-- Complete config snapshots
-- Checkpoint saving (best model)
-- Comprehensive logging
-- WandB integration (optional)
-
-**Directory Structure:**
+## Directory Structure:
 ```
 artifacts/
 ├── fishnet2/
@@ -378,13 +367,6 @@ artifacts/
 
 See `run_multiple_experiments_vits.sh` and `run_multiple_experiments_vitl.sh` for batch experiment scripts.
 
-**Key hyperparameters to tune:**
-1. Learning rate: {1e-4, 5e-4, 1e-3, 2e-3}
-2. Batch size: {128, 256, 512}
-3. Dropout: {0.0, 0.1, 0.2, 0.3}
-4. Hidden dimensions: {1024, 2048, 4096}
-5. LR scheduler: {cosine, linear, step} with warmup
-6. Regularization: MixUp, label smoothing, class weighting
 
 ### Shell Scripts Reference
 
